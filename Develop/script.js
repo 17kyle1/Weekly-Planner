@@ -5,20 +5,12 @@ var todayDate = $('#currentDay')
 var pastTimeBlock = $('.past')
 var presentTimeBlock = $('.present')
 var futureTimeBlock = $('.future')
-var saveButton = $('.btn')
+
 var hour = $('.hour')
 
 var inputDescription = $('.description')
 var containerEl = $('.row')
-var time9 =$('.description-9')
-var time10 =$('.description-10')
-var time11 =$('.description-11')
-var time12 =$('.description-12')
-var time13 =$('.description-13')
-var time14 =$('.description-14')
-var time15 =$('.description-15')
-var time16 =$('.description-16')
-var time17 =$('.description-17')
+
 /*
 var slot9 =localStorage.setItem('time9',time9)
 var slot10 =localStorage.setItem('time10',time10)
@@ -31,16 +23,28 @@ var slot16 =localStorage.setItem('time16',time16)
 var slot17 =localStorage.setItem('time17',time17)
 
 */
-$(function () {
-  var data = $(this)
-  
-  if (data != null){
-    var newData = localStorage.setItem(data)
-    console.log(newData)
-    containerEl.innerText =newData;
+function returnText(){
+  var x = localStorage.getItem(time, value)
+  if (x){
+    inputDescription.text = x
   }
-})
+}
 
+$('.saveBtn').on('click', function() {
+  returnText()
+
+  var value = $(this).siblings('.description').val();
+
+  var time = $(this).parent().attr('id');
+
+  localStorage.setItem(time, value);
+ var text = localStorage.getItem(time, value)
+ if(text){
+  inputDescription.innerText=text
+ }
+  console.log(time)
+  console.log(value)
+});
 
 console.log(inputDescription)
 console.log(hour)
