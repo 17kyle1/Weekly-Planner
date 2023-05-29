@@ -1,58 +1,72 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
+$(document).ready(function (){
 var todayDate = $('#currentDay')
-var pastTimeBlock = $('.past')
-var presentTimeBlock = $('.present')
-var futureTimeBlock = $('.future')
 
-var hour = $('.hour')
+var line9 = $('#9 textarea')
+var line10 = $('#10 textarea')
+var line11 = $('#11 textarea')
+var line12 = $('#12 textarea')
+var line13 = $('#13 textarea')
+var line14 = $('#14 textarea')
+var line15 = $('#15 textarea')
+var line16 = $('#16 textarea')
+var line17 = $('#17 textarea')
 
-var inputDescription = $('.description')
-var containerEl = $('.row')
 
-/*
-var slot9 =localStorage.setItem('time9',time9)
-var slot10 =localStorage.setItem('time10',time10)
-var slot11 =localStorage.setItem('time11',time11)
-var slot12 =localStorage.setItem('time12',time12)
-var slot13 =localStorage.setItem('time13',time13)
-var slot14 =localStorage.setItem('time14',time14)
-var slot15 =localStorage.setItem('time15',time15)
-var slot16 =localStorage.setItem('time16',time16)
-var slot17 =localStorage.setItem('time17',time17)
-
-*/
-function returnText(){
-  var x = localStorage.getItem(time, value)
-  if (x){
-    inputDescription.text = x
-  }
-}
 
 $('.saveBtn').on('click', function() {
-  returnText()
+  
 
   var value = $(this).siblings('.description').val();
 
-  var time = $(this).parent().attr('id');
+  var id = $(this).parent().attr('id');
+var list = JSON.parse(localStorage.getItem('tasksList'))
+if (!list){
+  list = {}
+}
+list[id] = value
+  localStorage.setItem('tasksList', JSON.stringify(list));
+  
+  
 
-  localStorage.setItem(time, value);
- var text = localStorage.getItem(time, value)
- if(text){
-  inputDescription.innerText=text
- }
-  console.log(time)
+ 
+
   console.log(value)
 });
+var list = JSON.parse(localStorage.getItem('tasksList'))
+if (list){
+line9.text(list['9'])
+line10.text(list['10'])
+line11.text(list['11'])
+line12.text(list['12'])
+line13.text(list['13'])
+line14.text(list['14'])
+line15.text(list['15'])
+line16.text(list['16'])
+line17.text(list['17'])
 
-console.log(inputDescription)
-console.log(hour)
-displayTime()
-function displayTime() {
-  var currentTime = dayjs().format('MMM DD, YYYY [at] hh:mm:ss a');
-  todayDate.text(currentTime);
 }
+
+
+  
+
+$('.time-block').each(function(){
+  
+  var realTime = parseInt(dayjs().format("H"))
+  todayDate.innerText = realTime
+  console.log(realTime)
+  let hour = parseInt($(this).attr('id'))
+
+if (hour < realTime){
+  $(this).addClass('past');
+  } else if(hour == realTime){
+    $(this).addClass('present')
+  } else if(hour > realTime){
+    $(this).addClass('future')
+  }
+}) })
 
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -73,4 +87,30 @@ function displayTime() {
   //
   // TODO: Add code to display the current date in the header of the page.
 
-  
+  function PastPresentFuture() {
+    var hourX = dayjs().hour();
+    //new logic on adding a numerical value to the time
+    console.log(hourX)
+    timeBlock.each(function () {
+      //The parseInt() function parses a string and returns an integer
+      var sectionHour = parseInt($(this).attr('id').split('-')[1]);
+      console.log($(this))
+      if (sectionHour < hourX) {
+        //if the hour on the to-do list is in the past the add class"past"
+        console.log("1")
+        timeBlock.addClass('past');
+      } else if (sectionHour === hourX) {
+        console.log("2")
+        //then 
+        timeBlock.removeClass('past');
+        timeBlock.addClass('present');
+      } else {
+        console.log("3")
+        timeBlock.removeClass('past');
+        timeBlock.removeClass('present');
+        timeBlock.addClass('future');
+      }
+    });
+  }
+
+   
